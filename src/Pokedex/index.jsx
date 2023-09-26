@@ -44,7 +44,7 @@ export function Pokedex() {
                 setScrollHeight(screen.current.scrollTop);
             }
 
-            setSelectedPokemon(i => i > 0 ? i - 1 : 0);
+            setSelectedPokemon(i => i > 0 ? i + 1 : 0);
 
         } else if (down.current === event.currentTarget && !viewPokeInfo) {
             const position = pokeRef.current.getBoundingClientRect().top;
