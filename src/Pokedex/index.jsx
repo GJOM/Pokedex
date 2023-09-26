@@ -38,8 +38,9 @@ export function Pokedex() {
 
     const onPressButton = (event) => { // Pode usar as setas da pokedex para navegar.
         if (up.current === event.currentTarget && !viewPokeInfo) {
-            const position = pokeRef.current.getBoundingClientRect().top;
-            if (position < 550) {
+            const position = pokeRef.current.offsetTop;
+            console.log(pokeRef.current.offsetTop, screen.current.scrollTop)
+            if (position - 125 < screen.current.scrollTop) {
                 screen.current.scrollTop -= 100;
                 setScrollHeight(screen.current.scrollTop);
             }
@@ -47,8 +48,9 @@ export function Pokedex() {
             setSelectedPokemon(i => i > 0 ? i - 1 : 0);
 
         } else if (down.current === event.currentTarget && !viewPokeInfo) {
-            const position = pokeRef.current.getBoundingClientRect().top;
-            if (position > 650) {
+            const position = pokeRef.current.offsetTop;
+
+            if (position - 127 > screen.current.scrollTop) {
                 screen.current.scrollTop += 100;
                 setScrollHeight(screen.current.scrollTop);
 
@@ -100,7 +102,7 @@ export function Pokedex() {
     }, []);
 
     useEffect(() => { // Busca o pokemon que terá a div destacada.
-        setPokemon(pokedex.find(({ id }) => id === selectedPokemon))
+        setPokemon(pokedex.find(({ id }) => id === selectedPokemon + 1))
     }, [pokedex, selectedPokemon])
 
     useEffect(() => { // Mantém a posição do scroll ao voltar das informações do pokemon.

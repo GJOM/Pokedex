@@ -2,7 +2,8 @@ main{
     display: flex; 
     width: 100%; 
     height: 100%;
-    position: relative;
+    position: fixed;
+    top: -40px;
 }
 
 .v-square{
@@ -187,7 +188,8 @@ main{
 }
 
 .screen:has(div){
-    background-color: #51AE60;
+    background-color: #51ae61;
+
 }
 
 .btn-box{
@@ -198,6 +200,7 @@ main{
     display: flex;
     justify-content: space-around;
     align-items: center;
+    cursor: pointer;
 }
 
 .btn{
@@ -251,6 +254,11 @@ main{
     z-index: 1;
  }
  
+ .keys > button:active{
+    box-shadow: none;
+    background: #b9b9b9;
+ }
+
  .keys > button:nth-child(1){
     left: 45px;
     top: 9px;
