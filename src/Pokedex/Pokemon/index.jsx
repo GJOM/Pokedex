@@ -58,7 +58,7 @@ export default function Pokemon() {
                     <span className={styles.type}>Type:</span>
                     {pokemon.types.map(({ type }, ind) => (
                         <span key={`type_${ind}`}
-                            className={styles["poke-type"]}>{type.name}</span>
+                            className={styles["poke-type"]}>{type.name.toUpperCase()}</span>
                     ))}
                 </div>
             </div>

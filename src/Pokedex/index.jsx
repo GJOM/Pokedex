@@ -26,8 +26,6 @@ export function Pokedex() {
     const { pokedex, setPokemon, pokemon, sortedBy, setSortedBy } = useContext(dataContext);
     const [scrollHeight, setScrollHeight] = useState(null);
 
-
-
     const onWheelScreen = (event) => { //Função para poder usar o scroll na tela da pokedex.
         if (event.deltaY > 0) {
             down.current.click()
@@ -37,9 +35,10 @@ export function Pokedex() {
     }
 
     const onPressButton = (event) => { // Pode usar as setas da pokedex para navegar.
+
         if (up.current === event.currentTarget && !viewPokeInfo) {
             const position = pokeRef.current.offsetTop;
-            console.log(pokeRef.current.offsetTop, screen.current.scrollTop)
+
             if (position - 125 < screen.current.scrollTop) {
                 screen.current.scrollTop -= 100;
                 setScrollHeight(screen.current.scrollTop);
@@ -53,7 +52,6 @@ export function Pokedex() {
             if (position - 127 > screen.current.scrollTop) {
                 screen.current.scrollTop += 100;
                 setScrollHeight(screen.current.scrollTop);
-
             }
 
             setSelectedPokemon(i => i < 19 ? i + 1 : 19);
@@ -80,8 +78,8 @@ export function Pokedex() {
             right.current.click();
         }
     }
-        
-    useEffect(()=>{ // Organiza por nome ou por experiência. Basta continuar clicando no botão.
+
+    useEffect(() => { // Organiza por nome ou por experiência. Basta continuar clicando no botão.
         if (sortedBy === 1) {
             setSortedPokedex(pokedex.sort((a, b) => { if (a.name < b.name) return -1 }))
 
@@ -90,8 +88,9 @@ export function Pokedex() {
 
         } else if (sortedBy === 0) {
             setSortedPokedex(null);
+
         }
-    },[sortedBy])
+    }, [sortedBy])
 
     useEffect(() => { // Usado para a execução dos comandos via teclado.
         window.addEventListener("keyup", onPressKeys);
@@ -102,12 +101,17 @@ export function Pokedex() {
     }, []);
 
     useEffect(() => { // Busca o pokemon que terá a div destacada.
-        setPokemon(pokedex.find(({ id }) => id === selectedPokemon + 1))
+        sortedPokedex ?
+            setPokemon(sortedPokedex.find((_, id) => id === selectedPokemon))
+            :
+            setPokemon(pokedex.find(({ id }) => id === selectedPokemon + 1))
+
     }, [pokedex, selectedPokemon])
 
-    useEffect(() => { // Mantém a posição do scroll ao voltar das informações do pokemon.
+    useEffect(() => { // Mantém a posição do scroll ao voltar das informações do pokemon. e ao alterar a ordem da lista.
         !viewPokeInfo && screen.current.scrollTo(0, scrollHeight)
-    }, [viewPokeInfo])
+    }, [viewPokeInfo, sortedPokedex])
+
 
     return (
         <main>
@@ -124,7 +128,7 @@ export function Pokedex() {
                             <Pokemon pokemon={pokemon} />}
                     </div>
                     <div className={styles['btn-box']}>
-                        <button className={styles.btn} ref={lBtn} onClick={()=> setSortedBy(i => i >= 2 ? i = 0 : i + 1)}></button>
+                        <button className={styles.btn} ref={lBtn} onClick={() => setSortedBy(i => i >= 2 ? i = 0 : i + 1)}></button>
                         <button className={styles.btn} ref={rBtn}></button>
                     </div>
                 </div>
